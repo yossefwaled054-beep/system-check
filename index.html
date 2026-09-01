@@ -1,26 +1,269 @@
-<!doctype html>
-<html lang="ar" dir="rtl">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>System</title>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>System Integrity Check</title>
+
 <style>
-html,body{margin:0;background:#000;color:#0f0;font-family:monospace;height:100%;overflow:hidden}
-#x{padding:35px;font-size:20px}
-.flash{animation:f .15s 3}
-@keyframes f{50%{background:#fff;color:#000}}
-.big{font-size:42px;color:red;text-align:center;margin-top:25vh}
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: #050505;
+  color: #d8d8d8;
+  font-family: monospace;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.container {
+  width: 92%;
+  max-width: 720px;
+  border: 1px solid #555;
+  background: #0b0b0b;
+  box-shadow: 0 0 35px rgba(255,255,255,.08);
+}
+
+.header {
+  padding: 14px 18px;
+  border-bottom: 1px solid #333;
+  font-size: 14px;
+  letter-spacing: 1px;
+}
+
+.status {
+  float: right;
+  font-size: 12px;
+}
+
+.content {
+  padding: 28px 22px;
+}
+
+h1 {
+  font-size: 25px;
+  margin: 0 0 8px;
+  letter-spacing: 2px;
+}
+
+.subtitle {
+  color: #888;
+  font-size: 13px;
+  margin-bottom: 28px;
+}
+
+.terminal {
+  background: #020202;
+  border: 1px solid #292929;
+  padding: 18px;
+  min-height: 190px;
+  line-height: 1.7;
+  font-size: 13px;
+  overflow: hidden;
+}
+
+.line {
+  opacity: 0;
+}
+
+.progress-box {
+  margin-top: 22px;
+}
+
+.progress {
+  height: 8px;
+  background: #1c1c1c;
+  border: 1px solid #333;
+}
+
+.bar {
+  height: 100%;
+  width: 0%;
+  background: #aaa;
+  transition: width .25s;
+}
+
+.percent {
+  text-align: right;
+  margin-top: 7px;
+  font-size: 12px;
+  color: #888;
+}
+
+button {
+  margin-top: 25px;
+  width: 100%;
+  padding: 15px;
+  background: #111;
+  color: #eee;
+  border: 1px solid #777;
+  font-family: monospace;
+  font-size: 14px;
+  letter-spacing: 1px;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #1b1b1b;
+}
+
+.warning {
+  display: none;
+  margin-top: 22px;
+  border: 1px solid #777;
+  padding: 18px;
+  background: #111;
+}
+
+.warning-title {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.warning-text {
+  color: #aaa;
+  line-height: 1.6;
+  font-size: 13px;
+}
+
+.footer {
+  border-top: 1px solid #333;
+  padding: 12px 18px;
+  color: #666;
+  font-size: 11px;
+}
 </style>
-<div id="x">Initializing system...<br><br>Checking device...<br><br>
-<span id="p">0%</span></div>
+</head>
+
+<body>
+
+<div class="container">
+
+  <div class="header">
+    SYSTEM DIAGNOSTIC
+    <span class="status">ONLINE</span>
+  </div>
+
+  <div class="content">
+
+    <h1>SYSTEM INTEGRITY CHECK</h1>
+
+    <div class="subtitle">
+      Automated security verification sequence
+    </div>
+
+    <div class="terminal" id="terminal">
+      <div class="line">Initializing diagnostic environment...</div>
+      <div class="line">Loading system verification modules...</div>
+      <div class="line">Checking system response patterns...</div>
+      <div class="line">Analyzing integrity status...</div>
+      <div class="line">Comparing expected system behavior...</div>
+      <div class="line">Waiting for verification...</div>
+    </div>
+
+    <div class="progress-box">
+      <div class="progress">
+        <div class="bar" id="bar"></div>
+      </div>
+      <div class="percent" id="percent">0%</div>
+    </div>
+
+    <button id="start">START SECURITY VERIFICATION</button>
+
+    <div class="warning" id="warning">
+      <div class="warning-title">
+        ⚠ SYSTEM STATUS: REVIEW REQUIRED
+      </div>
+
+      <div class="warning-text">
+        The verification sequence detected irregular response patterns.
+        Additional system analysis is recommended before continuing.
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    SYSTEM DIAGNOSTIC MODULE // LOCAL VISUAL SIMULATION
+  </div>
+
+</div>
+
 <script>
-let n=0,p=document.getElementById("p");
-let t=setInterval(()=>{
- n+=10;p.textContent=n+"%";
- if(n>=100){
-  clearInterval(t);
-  document.body.className="flash";
-  document.body.innerHTML='<div class="big">⚠️ SYSTEM ALERT ⚠️<br><br>😂</div>';
-  setTimeout(()=>document.body.innerHTML='<div class="big">مقلب 😂</div>',900);
- }
-},180);
+const button = document.getElementById("start");
+const lines = document.querySelectorAll(".line");
+const bar = document.getElementById("bar");
+const percent = document.getElementById("percent");
+const warning = document.getElementById("warning");
+
+function beep() {
+  try {
+    const AudioContext = window.AudioContext || window.webkitAudioContext;
+    const audio = new AudioContext();
+
+    const oscillator = audio.createOscillator();
+    const gain = audio.createGain();
+
+    oscillator.frequency.value = 650;
+    oscillator.type = "square";
+
+    gain.gain.value = 0.035;
+
+    oscillator.connect(gain);
+    gain.connect(audio.destination);
+
+    oscillator.start();
+
+    setTimeout(() => {
+      oscillator.stop();
+      audio.close();
+    }, 120);
+  } catch (e) {}
+}
+
+button.addEventListener("click", () => {
+
+  button.disabled = true;
+  button.textContent = "VERIFICATION IN PROGRESS...";
+
+  beep();
+
+  lines.forEach((line, index) => {
+    setTimeout(() => {
+      line.style.opacity = "1";
+    }, index * 900);
+  });
+
+  let progress = 0;
+
+  const interval = setInterval(() => {
+
+    progress += Math.floor(Math.random() * 5) + 1;
+
+    if (progress >= 100) {
+      progress = 100;
+      clearInterval(interval);
+
+      setTimeout(() => {
+        warning.style.display = "block";
+        button.textContent = "VERIFICATION COMPLETE";
+        beep();
+      }, 700);
+    }
+
+    bar.style.width = progress + "%";
+    percent.textContent = progress + "%";
+
+  }, 350);
+
+});
 </script>
+
+</body>
+</html>
 
