@@ -3,244 +3,383 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>System Security Verification</title>
+<title>System Verification</title>
 
 <style>
 *{box-sizing:border-box}
+
 body{
 margin:0;
-background:#030303;
+background:#020202;
 color:#ddd;
 font-family:monospace;
 min-height:100vh;
 display:flex;
 align-items:center;
 justify-content:center;
-overflow:hidden
-}
-.screen{
-width:94%;
-max-width:720px;
-min-height:430px;
-border:1px solid #444;
-background:#080808;
-box-shadow:0 0 35px rgba(255,255,255,.08);
-padding:28px
-}
-h1{font-size:23px;letter-spacing:2px;margin:0 0 8px}
-.sub{color:#777;font-size:12px;margin-bottom:25px}
-.terminal{
-background:#010101;
-border:1px solid #292929;
-padding:18px;
-height:230px;
 overflow:hidden;
-line-height:1.8;
-font-size:13px
 }
-.line{opacity:0}
-.camera{
-display:none;
-height:230px;
-border:1px solid #555;
-position:relative;
-align-items:center;
-justify-content:center;
-background:
-linear-gradient(rgba(255,255,255,.03) 1px,transparent 1px),
-linear-gradient(90deg,rgba(255,255,255,.03) 1px,transparent 1px);
-background-size:25px 25px
+
+body.glitch{
+animation:shake .08s infinite;
 }
-.camera:after{
-content:"";
-width:170px;
-height:170px;
-border:2px solid #777;
-border-radius:50%;
-position:absolute
+
+@keyframes shake{
+0%{transform:translate(0)}
+25%{transform:translate(2px,-1px)}
+50%{transform:translate(-2px,1px)}
+75%{transform:translate(1px,2px)}
+100%{transform:translate(0)}
 }
-.camtext{
-z-index:2;
-background:#050505;
-padding:8px 12px;
-font-size:12px
-}
-.flash{
-display:none;
+
+.scanlines{
 position:fixed;
 inset:0;
-background:#fff;
-z-index:20
+pointer-events:none;
+background:repeating-linear-gradient(
+to bottom,
+rgba(255,255,255,.025) 0px,
+rgba(255,255,255,.025) 1px,
+transparent 2px,
+transparent 4px
+);
+z-index:10;
 }
-.progress{
-margin-top:20px;
-height:8px;
-background:#1c1c1c;
-border:1px solid #333
+
+.box{
+width:94%;
+max-width:760px;
+background:#080808;
+border:1px solid #555;
+box-shadow:0 0 40px rgba(255,255,255,.08);
+padding:25px;
+position:relative;
 }
-.bar{
-height:100%;
-width:0;
-background:#aaa;
-transition:.2s
-}
-.percent{
-text-align:left;
-color:#888;
+
+.top{
+border-bottom:1px solid #333;
+padding-bottom:12px;
 font-size:12px;
-margin-top:7px
+letter-spacing:2px;
 }
+
+.top span{
+float:left;
+color:#888;
+}
+
+h1{
+font-size:24px;
+margin:22px 0 6px;
+letter-spacing:2px;
+}
+
+.sub{
+color:#777;
+font-size:12px;
+margin-bottom:20px;
+}
+
+.terminal{
+height:220px;
+background:#010101;
+border:1px solid #292929;
+padding:17px;
+overflow:hidden;
+line-height:1.75;
+font-size:13px;
+}
+
+.line{
+opacity:0;
+}
+
+.progress{
+margin-top:18px;
+height:9px;
+background:#171717;
+border:1px solid #333;
+}
+
+.bar{
+width:0;
+height:100%;
+background:#aaa;
+transition:.18s;
+}
+
+.percent{
+font-size:12px;
+color:#777;
+margin-top:7px;
+}
+
 .alert{
 display:none;
-border:1px solid #777;
-padding:20px;
 margin-top:20px;
-background:#111;
-text-align:center
+padding:20px;
+border:1px solid #777;
+background:#101010;
+text-align:center;
 }
-.alert h2{font-size:20px}
+
+.alert h2{
+margin:0 0 12px;
+font-size:21px;
+}
+
+.alert p{
+color:#aaa;
+font-size:13px;
+line-height:1.6;
+}
+
 .final{
 display:none;
 text-align:center;
-padding-top:45px
+padding:50px 10px;
 }
-.final .big{
+
+.final .title{
 font-size:27px;
 letter-spacing:2px;
-margin-bottom:20px
+margin-bottom:18px;
 }
+
 .youssef{
-font-size:22px;
-margin-top:25px
+font-size:23px;
+margin-top:30px;
 }
-.small{color:#777;font-size:11px;margin-top:15px}
+
+.small{
+color:#777;
+font-size:11px;
+margin-top:15px;
+}
+
+.flash{
+position:fixed;
+inset:0;
+background:white;
+opacity:0;
+pointer-events:none;
+z-index:30;
+}
+
+.flash.on{
+animation:flash .18s linear;
+}
+
+@keyframes flash{
+0%{opacity:0}
+40%{opacity:.85}
+100%{opacity:0}
+}
+
+.big-warning{
+position:fixed;
+inset:0;
+display:none;
+align-items:center;
+justify-content:center;
+background:rgba(0,0,0,.92);
+z-index:20;
+text-align:center;
+}
+
+.big-warning div{
+font-size:28px;
+letter-spacing:3px;
+}
+
 </style>
 </head>
 
 <body>
 
-<div class="screen">
+<div class="scanlines"></div>
+<div class="flash" id="flash"></div>
 
-<div id="main">
-<h1>SYSTEM SECURITY VERIFICATION</h1>
-<div class="sub">Automated integrity diagnostic</div>
-
-<div class="camera" id="camera">
-<div class="camtext">OPTICAL MODULE INITIALIZING...</div>
+<div class="big-warning" id="bigWarning">
+<div>⚠ SYSTEM ALERT ⚠</div>
 </div>
 
-<div class="terminal" id="terminal">
+<div class="box">
+
+<div id="main">
+
+<div class="top">
+SYSTEM DIAGNOSTIC
+<span>SECURITY MODULE</span>
+</div>
+
+<h1>SYSTEM INTEGRITY CHECK</h1>
+
+<div class="sub">
+Automated security verification sequence
+</div>
+
+<div class="terminal">
+
 <div class="line">Initializing diagnostic environment...</div>
 <div class="line">Loading verification modules...</div>
-<div class="line">Checking system response patterns...</div>
-<div class="line">Analyzing integrity status...</div>
-<div class="line">Comparing expected system behavior...</div>
+<div class="line">Analyzing system response...</div>
+<div class="line">Checking integrity patterns...</div>
+<div class="line">Scanning active components...</div>
+<div class="line">Comparing expected behavior...</div>
+<div class="line">Final verification sequence...</div>
+
 </div>
 
 <div class="progress">
 <div class="bar" id="bar"></div>
 </div>
+
 <div class="percent" id="percent">0%</div>
 
 <div class="alert" id="alert">
+
 <h2>⚠ SYSTEM STATUS: REVIEW REQUIRED</h2>
-<p>Irregular response patterns detected.</p>
-<p>Final system assessment in progress...</p>
+
+<p>
+Irregular response patterns detected.
+</p>
+
+<p>
+Additional verification is being performed...
+</p>
+
 </div>
+
 </div>
 
 <div class="final" id="final">
-<div class="big">SYSTEM CHECK COMPLETE</div>
-<div>Session reviewed successfully.</div>
 
-<div class="youssef">معلوماتك مع يوسف 😂</div>
+<div class="title">
+SYSTEM CHECK COMPLETE
+</div>
+
+<div>
+Verification sequence finished.
+</div>
+
+<div class="youssef">
+معلوماتك مع عمك يوسف وليد 😂🔥
+</div>
 
 <div class="small">
 No personal data was collected.
 </div>
-</div>
 
 </div>
 
-<div class="flash" id="flash"></div>
+</div>
 
 <script>
-const camera=document.getElementById("camera");
-const terminal=document.getElementById("terminal");
+
 const lines=document.querySelectorAll(".line");
 const bar=document.getElementById("bar");
 const percent=document.getElementById("percent");
 const alertBox=document.getElementById("alert");
 const final=document.getElementById("final");
+const main=document.getElementById("main");
 const flash=document.getElementById("flash");
+const bigWarning=document.getElementById("bigWarning");
 
 function beep(){
+
 try{
+
 const A=window.AudioContext||window.webkitAudioContext;
-const a=new A();
-const o=a.createOscillator();
-const g=a.createGain();
-o.frequency.value=650;
-g.gain.value=.025;
-o.connect(g);
-g.connect(a.destination);
-o.start();
-setTimeout(()=>{o.stop();a.close()},120);
+const audio=new A();
+
+const osc=audio.createOscillator();
+const gain=audio.createGain();
+
+osc.type="square";
+osc.frequency.value=620;
+gain.gain.value=.025;
+
+osc.connect(gain);
+gain.connect(audio.destination);
+
+osc.start();
+
+setTimeout(()=>{
+osc.stop();
+audio.close();
+},120);
+
 }catch(e){}
+
 }
 
-/* يبدأ تلقائيا */
-setTimeout(()=>{
-camera.style.display="flex";
-beep();
+/* بداية تلقائية */
 
 setTimeout(()=>{
-flash.style.display="block";
-
-setTimeout(()=>{
-flash.style.display="none";
-camera.style.display="none";
-terminal.style.display="block";
 
 lines.forEach((line,i)=>{
-setTimeout(()=>line.style.opacity="1",i*650);
+
+setTimeout(()=>{
+line.style.opacity="1";
+},i*550);
+
 });
 
 startProgress();
 
-},180);
-
-},1800);
-
 },700);
 
+
 function startProgress(){
+
 let p=0;
 
 const timer=setInterval(()=>{
-p+=Math.floor(Math.random()*6)+2;
+
+p+=Math.floor(Math.random()*5)+2;
 
 if(p>=100){
+
 p=100;
 clearInterval(timer);
 
 setTimeout(()=>{
-alertBox.style.display="block";
+
+/* تأثير مفاجئ */
+
+document.body.classList.add("glitch");
+flash.classList.add("on");
+bigWarning.style.display="flex";
+
 beep();
 
 setTimeout(()=>{
-document.getElementById("main").style.display="none";
+
+document.body.classList.remove("glitch");
+bigWarning.style.display="none";
+alertBox.style.display="block";
+
+setTimeout(()=>{
+
+main.style.display="none";
 final.style.display="block";
-},2500);
+
+},2600);
 
 },700);
+
+},700);
+
 }
 
 bar.style.width=p+"%";
 percent.textContent=p+"%";
 
-},300);
+},280);
+
 }
+
 </script>
 
 </body>
