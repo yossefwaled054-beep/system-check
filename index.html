@@ -1,269 +1,247 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>System Integrity Check</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>System Security Verification</title>
 
 <style>
-* {
-  box-sizing: border-box;
+*{box-sizing:border-box}
+body{
+margin:0;
+background:#030303;
+color:#ddd;
+font-family:monospace;
+min-height:100vh;
+display:flex;
+align-items:center;
+justify-content:center;
+overflow:hidden
 }
-
-body {
-  margin: 0;
-  background: #050505;
-  color: #d8d8d8;
-  font-family: monospace;
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.screen{
+width:94%;
+max-width:720px;
+min-height:430px;
+border:1px solid #444;
+background:#080808;
+box-shadow:0 0 35px rgba(255,255,255,.08);
+padding:28px
 }
-
-.container {
-  width: 92%;
-  max-width: 720px;
-  border: 1px solid #555;
-  background: #0b0b0b;
-  box-shadow: 0 0 35px rgba(255,255,255,.08);
+h1{font-size:23px;letter-spacing:2px;margin:0 0 8px}
+.sub{color:#777;font-size:12px;margin-bottom:25px}
+.terminal{
+background:#010101;
+border:1px solid #292929;
+padding:18px;
+height:230px;
+overflow:hidden;
+line-height:1.8;
+font-size:13px
 }
-
-.header {
-  padding: 14px 18px;
-  border-bottom: 1px solid #333;
-  font-size: 14px;
-  letter-spacing: 1px;
+.line{opacity:0}
+.camera{
+display:none;
+height:230px;
+border:1px solid #555;
+position:relative;
+align-items:center;
+justify-content:center;
+background:
+linear-gradient(rgba(255,255,255,.03) 1px,transparent 1px),
+linear-gradient(90deg,rgba(255,255,255,.03) 1px,transparent 1px);
+background-size:25px 25px
 }
-
-.status {
-  float: right;
-  font-size: 12px;
+.camera:after{
+content:"";
+width:170px;
+height:170px;
+border:2px solid #777;
+border-radius:50%;
+position:absolute
 }
-
-.content {
-  padding: 28px 22px;
+.camtext{
+z-index:2;
+background:#050505;
+padding:8px 12px;
+font-size:12px
 }
-
-h1 {
-  font-size: 25px;
-  margin: 0 0 8px;
-  letter-spacing: 2px;
+.flash{
+display:none;
+position:fixed;
+inset:0;
+background:#fff;
+z-index:20
 }
-
-.subtitle {
-  color: #888;
-  font-size: 13px;
-  margin-bottom: 28px;
+.progress{
+margin-top:20px;
+height:8px;
+background:#1c1c1c;
+border:1px solid #333
 }
-
-.terminal {
-  background: #020202;
-  border: 1px solid #292929;
-  padding: 18px;
-  min-height: 190px;
-  line-height: 1.7;
-  font-size: 13px;
-  overflow: hidden;
+.bar{
+height:100%;
+width:0;
+background:#aaa;
+transition:.2s
 }
-
-.line {
-  opacity: 0;
+.percent{
+text-align:left;
+color:#888;
+font-size:12px;
+margin-top:7px
 }
-
-.progress-box {
-  margin-top: 22px;
+.alert{
+display:none;
+border:1px solid #777;
+padding:20px;
+margin-top:20px;
+background:#111;
+text-align:center
 }
-
-.progress {
-  height: 8px;
-  background: #1c1c1c;
-  border: 1px solid #333;
+.alert h2{font-size:20px}
+.final{
+display:none;
+text-align:center;
+padding-top:45px
 }
-
-.bar {
-  height: 100%;
-  width: 0%;
-  background: #aaa;
-  transition: width .25s;
+.final .big{
+font-size:27px;
+letter-spacing:2px;
+margin-bottom:20px
 }
-
-.percent {
-  text-align: right;
-  margin-top: 7px;
-  font-size: 12px;
-  color: #888;
+.youssef{
+font-size:22px;
+margin-top:25px
 }
-
-button {
-  margin-top: 25px;
-  width: 100%;
-  padding: 15px;
-  background: #111;
-  color: #eee;
-  border: 1px solid #777;
-  font-family: monospace;
-  font-size: 14px;
-  letter-spacing: 1px;
-  cursor: pointer;
-}
-
-button:hover {
-  background: #1b1b1b;
-}
-
-.warning {
-  display: none;
-  margin-top: 22px;
-  border: 1px solid #777;
-  padding: 18px;
-  background: #111;
-}
-
-.warning-title {
-  font-size: 18px;
-  margin-bottom: 10px;
-}
-
-.warning-text {
-  color: #aaa;
-  line-height: 1.6;
-  font-size: 13px;
-}
-
-.footer {
-  border-top: 1px solid #333;
-  padding: 12px 18px;
-  color: #666;
-  font-size: 11px;
-}
+.small{color:#777;font-size:11px;margin-top:15px}
 </style>
 </head>
 
 <body>
 
-<div class="container">
+<div class="screen">
 
-  <div class="header">
-    SYSTEM DIAGNOSTIC
-    <span class="status">ONLINE</span>
-  </div>
+<div id="main">
+<h1>SYSTEM SECURITY VERIFICATION</h1>
+<div class="sub">Automated integrity diagnostic</div>
 
-  <div class="content">
+<div class="camera" id="camera">
+<div class="camtext">OPTICAL MODULE INITIALIZING...</div>
+</div>
 
-    <h1>SYSTEM INTEGRITY CHECK</h1>
+<div class="terminal" id="terminal">
+<div class="line">Initializing diagnostic environment...</div>
+<div class="line">Loading verification modules...</div>
+<div class="line">Checking system response patterns...</div>
+<div class="line">Analyzing integrity status...</div>
+<div class="line">Comparing expected system behavior...</div>
+</div>
 
-    <div class="subtitle">
-      Automated security verification sequence
-    </div>
+<div class="progress">
+<div class="bar" id="bar"></div>
+</div>
+<div class="percent" id="percent">0%</div>
 
-    <div class="terminal" id="terminal">
-      <div class="line">Initializing diagnostic environment...</div>
-      <div class="line">Loading system verification modules...</div>
-      <div class="line">Checking system response patterns...</div>
-      <div class="line">Analyzing integrity status...</div>
-      <div class="line">Comparing expected system behavior...</div>
-      <div class="line">Waiting for verification...</div>
-    </div>
+<div class="alert" id="alert">
+<h2>⚠ SYSTEM STATUS: REVIEW REQUIRED</h2>
+<p>Irregular response patterns detected.</p>
+<p>Final system assessment in progress...</p>
+</div>
+</div>
 
-    <div class="progress-box">
-      <div class="progress">
-        <div class="bar" id="bar"></div>
-      </div>
-      <div class="percent" id="percent">0%</div>
-    </div>
+<div class="final" id="final">
+<div class="big">SYSTEM CHECK COMPLETE</div>
+<div>Session reviewed successfully.</div>
 
-    <button id="start">START SECURITY VERIFICATION</button>
+<div class="youssef">معلوماتك مع يوسف 😂</div>
 
-    <div class="warning" id="warning">
-      <div class="warning-title">
-        ⚠ SYSTEM STATUS: REVIEW REQUIRED
-      </div>
-
-      <div class="warning-text">
-        The verification sequence detected irregular response patterns.
-        Additional system analysis is recommended before continuing.
-      </div>
-    </div>
-
-  </div>
-
-  <div class="footer">
-    SYSTEM DIAGNOSTIC MODULE // LOCAL VISUAL SIMULATION
-  </div>
+<div class="small">
+No personal data was collected.
+</div>
+</div>
 
 </div>
 
+<div class="flash" id="flash"></div>
+
 <script>
-const button = document.getElementById("start");
-const lines = document.querySelectorAll(".line");
-const bar = document.getElementById("bar");
-const percent = document.getElementById("percent");
-const warning = document.getElementById("warning");
+const camera=document.getElementById("camera");
+const terminal=document.getElementById("terminal");
+const lines=document.querySelectorAll(".line");
+const bar=document.getElementById("bar");
+const percent=document.getElementById("percent");
+const alertBox=document.getElementById("alert");
+const final=document.getElementById("final");
+const flash=document.getElementById("flash");
 
-function beep() {
-  try {
-    const AudioContext = window.AudioContext || window.webkitAudioContext;
-    const audio = new AudioContext();
-
-    const oscillator = audio.createOscillator();
-    const gain = audio.createGain();
-
-    oscillator.frequency.value = 650;
-    oscillator.type = "square";
-
-    gain.gain.value = 0.035;
-
-    oscillator.connect(gain);
-    gain.connect(audio.destination);
-
-    oscillator.start();
-
-    setTimeout(() => {
-      oscillator.stop();
-      audio.close();
-    }, 120);
-  } catch (e) {}
+function beep(){
+try{
+const A=window.AudioContext||window.webkitAudioContext;
+const a=new A();
+const o=a.createOscillator();
+const g=a.createGain();
+o.frequency.value=650;
+g.gain.value=.025;
+o.connect(g);
+g.connect(a.destination);
+o.start();
+setTimeout(()=>{o.stop();a.close()},120);
+}catch(e){}
 }
 
-button.addEventListener("click", () => {
+/* يبدأ تلقائيا */
+setTimeout(()=>{
+camera.style.display="flex";
+beep();
 
-  button.disabled = true;
-  button.textContent = "VERIFICATION IN PROGRESS...";
+setTimeout(()=>{
+flash.style.display="block";
 
-  beep();
+setTimeout(()=>{
+flash.style.display="none";
+camera.style.display="none";
+terminal.style.display="block";
 
-  lines.forEach((line, index) => {
-    setTimeout(() => {
-      line.style.opacity = "1";
-    }, index * 900);
-  });
-
-  let progress = 0;
-
-  const interval = setInterval(() => {
-
-    progress += Math.floor(Math.random() * 5) + 1;
-
-    if (progress >= 100) {
-      progress = 100;
-      clearInterval(interval);
-
-      setTimeout(() => {
-        warning.style.display = "block";
-        button.textContent = "VERIFICATION COMPLETE";
-        beep();
-      }, 700);
-    }
-
-    bar.style.width = progress + "%";
-    percent.textContent = progress + "%";
-
-  }, 350);
-
+lines.forEach((line,i)=>{
+setTimeout(()=>line.style.opacity="1",i*650);
 });
+
+startProgress();
+
+},180);
+
+},1800);
+
+},700);
+
+function startProgress(){
+let p=0;
+
+const timer=setInterval(()=>{
+p+=Math.floor(Math.random()*6)+2;
+
+if(p>=100){
+p=100;
+clearInterval(timer);
+
+setTimeout(()=>{
+alertBox.style.display="block";
+beep();
+
+setTimeout(()=>{
+document.getElementById("main").style.display="none";
+final.style.display="block";
+},2500);
+
+},700);
+}
+
+bar.style.width=p+"%";
+percent.textContent=p+"%";
+
+},300);
+}
 </script>
 
 </body>
 </html>
-
