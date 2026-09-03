@@ -1,384 +1,353 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>System Verification</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>YOUSSEF SYSTEM</title>
 
 <style>
 *{box-sizing:border-box}
 
 body{
-margin:0;
-background:#020202;
-color:#ddd;
-font-family:monospace;
-min-height:100vh;
-display:flex;
-align-items:center;
-justify-content:center;
-overflow:hidden;
+    margin:0;
+    min-height:100vh;
+    background:#05070d;
+    color:#fff;
+    font-family:monospace;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    overflow:hidden;
 }
 
-body.glitch{
-animation:shake .08s infinite;
+body:before{
+    content:"";
+    position:fixed;
+    inset:0;
+    background:
+      linear-gradient(rgba(0,255,255,.04) 1px,transparent 1px),
+      linear-gradient(90deg,rgba(0,255,255,.04) 1px,transparent 1px);
+    background-size:35px 35px;
+    pointer-events:none;
 }
 
-@keyframes shake{
-0%{transform:translate(0)}
-25%{transform:translate(2px,-1px)}
-50%{transform:translate(-2px,1px)}
-75%{transform:translate(1px,2px)}
-100%{transform:translate(0)}
-}
-
-.scanlines{
-position:fixed;
-inset:0;
-pointer-events:none;
-background:repeating-linear-gradient(
-to bottom,
-rgba(255,255,255,.025) 0px,
-rgba(255,255,255,.025) 1px,
-transparent 2px,
-transparent 4px
-);
-z-index:10;
-}
-
-.box{
-width:94%;
-max-width:760px;
-background:#080808;
-border:1px solid #555;
-box-shadow:0 0 40px rgba(255,255,255,.08);
-padding:25px;
-position:relative;
+.phone{
+    width:370px;
+    max-width:94vw;
+    height:720px;
+    max-height:94vh;
+    border:2px solid #00eaff;
+    border-radius:30px;
+    padding:18px;
+    background:#080b14;
+    box-shadow:0 0 25px #00eaff55, inset 0 0 30px #001f2b;
+    position:relative;
+    overflow:hidden;
 }
 
 .top{
-border-bottom:1px solid #333;
-padding-bottom:12px;
-font-size:12px;
-letter-spacing:2px;
+    text-align:center;
+    font-size:12px;
+    color:#00eaff;
+    letter-spacing:3px;
+    margin-bottom:18px;
 }
 
-.top span{
-float:left;
-color:#888;
+.logo{
+    text-align:center;
+    font-size:28px;
+    font-weight:bold;
+    color:#fff;
+    text-shadow:0 0 12px #00eaff;
+    margin:10px 0;
 }
 
-h1{
-font-size:24px;
-margin:22px 0 6px;
-letter-spacing:2px;
+.status{
+    text-align:center;
+    color:#aaa;
+    font-size:12px;
+    margin-bottom:25px;
 }
 
-.sub{
-color:#777;
-font-size:12px;
-margin-bottom:20px;
+.scan{
+    border:1px solid #222d3d;
+    border-radius:15px;
+    padding:14px;
+    margin:10px 0;
+    background:#0b101b;
+    transition:.3s;
 }
 
-.terminal{
-height:220px;
-background:#010101;
-border:1px solid #292929;
-padding:17px;
-overflow:hidden;
-line-height:1.75;
-font-size:13px;
+.scan.active{
+    border-color:#00eaff;
+    box-shadow:0 0 15px #00eaff33;
 }
 
-.line{
-opacity:0;
+.scan.done{
+    border-color:#00ff88;
 }
 
-.progress{
-margin-top:18px;
-height:9px;
-background:#171717;
-border:1px solid #333;
+.row{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.name{
+    font-size:14px;
+}
+
+.result{
+    font-size:12px;
+    color:#777;
 }
 
 .bar{
-width:0;
-height:100%;
-background:#aaa;
-transition:.18s;
+    width:100%;
+    height:5px;
+    background:#151c29;
+    border-radius:10px;
+    margin-top:10px;
+    overflow:hidden;
+}
+
+.fill{
+    width:0%;
+    height:100%;
+    background:linear-gradient(90deg,#00eaff,#7c4dff);
+    box-shadow:0 0 10px #00eaff;
+    transition:width .5s;
 }
 
 .percent{
-font-size:12px;
-color:#777;
-margin-top:7px;
+    color:#00eaff;
 }
 
 .alert{
-display:none;
-margin-top:20px;
-padding:20px;
-border:1px solid #777;
-background:#101010;
-text-align:center;
+    display:none;
+    position:absolute;
+    inset:0;
+    background:rgba(5,0,10,.96);
+    z-index:10;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    padding:25px;
 }
 
-.alert h2{
-margin:0 0 12px;
-font-size:21px;
+.alert.show{
+    display:flex;
+    animation:flash .2s infinite alternate;
+}
+
+.alertbox{
+    border:2px solid #ff1744;
+    padding:30px 18px;
+    border-radius:18px;
+    box-shadow:0 0 35px #ff1744;
+}
+
+.alert h1{
+    color:#ff1744;
+    font-size:28px;
+    text-shadow:0 0 15px #ff1744;
 }
 
 .alert p{
-color:#aaa;
-font-size:13px;
-line-height:1.6;
+    color:#fff;
+    font-size:13px;
 }
 
 .final{
-display:none;
-text-align:center;
-padding:50px 10px;
+    display:none;
+    position:absolute;
+    inset:0;
+    z-index:11;
+    background:#05070d;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    flex-direction:column;
 }
 
-.final .title{
-font-size:27px;
-letter-spacing:2px;
-margin-bottom:18px;
+.final.show{
+    display:flex;
 }
 
 .youssef{
-font-size:23px;
-margin-top:30px;
+    font-size:42px;
+    font-weight:bold;
+    color:#00eaff;
+    text-shadow:
+      0 0 8px #00eaff,
+      0 0 25px #7c4dff;
+    animation:pulse 1s infinite alternate;
 }
 
-.small{
-color:#777;
-font-size:11px;
-margin-top:15px;
+.fake{
+    color:#888;
+    font-size:11px;
+    margin-top:15px;
 }
 
-.flash{
-position:fixed;
-inset:0;
-background:white;
-opacity:0;
-pointer-events:none;
-z-index:30;
-}
-
-.flash.on{
-animation:flash .18s linear;
+@keyframes pulse{
+    from{transform:scale(1)}
+    to{transform:scale(1.08)}
 }
 
 @keyframes flash{
-0%{opacity:0}
-40%{opacity:.85}
-100%{opacity:0}
+    from{opacity:1}
+    to{opacity:.75}
 }
 
-.big-warning{
-position:fixed;
-inset:0;
-display:none;
-align-items:center;
-justify-content:center;
-background:rgba(0,0,0,.92);
-z-index:20;
-text-align:center;
+.footer{
+    position:absolute;
+    bottom:12px;
+    left:0;
+    right:0;
+    text-align:center;
+    color:#384152;
+    font-size:9px;
 }
-
-.big-warning div{
-font-size:28px;
-letter-spacing:3px;
-}
-
 </style>
 </head>
 
 <body>
 
-<div class="scanlines"></div>
-<div class="flash" id="flash"></div>
+<div class="phone">
 
-<div class="big-warning" id="bigWarning">
-<div>⚠ SYSTEM ALERT ⚠</div>
+<div class="top">SYSTEM DIAGNOSTIC // ONLINE</div>
+
+<div class="logo">YOUSSEF</div>
+
+<div class="status" id="status">
+INITIALIZING SECURITY ENGINE...
 </div>
 
-<div class="box">
-
-<div id="main">
-
-<div class="top">
-SYSTEM DIAGNOSTIC
-<span>SECURITY MODULE</span>
+<div class="scan" id="s1">
+<div class="row">
+<span class="name">DEVICE ANALYSIS</span>
+<span class="result" id="r1">WAITING</span>
+</div>
+<div class="bar"><div class="fill" id="b1"></div></div>
 </div>
 
-<h1>SYSTEM INTEGRITY CHECK</h1>
-
-<div class="sub">
-Automated security verification sequence
+<div class="scan" id="s2">
+<div class="row">
+<span class="name">MEMORY CHECK</span>
+<span class="result" id="r2">WAITING</span>
+</div>
+<div class="bar"><div class="fill" id="b2"></div></div>
 </div>
 
-<div class="terminal">
-
-<div class="line">Initializing diagnostic environment...</div>
-<div class="line">Loading verification modules...</div>
-<div class="line">Analyzing system response...</div>
-<div class="line">Checking integrity patterns...</div>
-<div class="line">Scanning active components...</div>
-<div class="line">Comparing expected behavior...</div>
-<div class="line">Final verification sequence...</div>
-
+<div class="scan" id="s3">
+<div class="row">
+<span class="name">NETWORK SECURITY</span>
+<span class="result" id="r3">WAITING</span>
+</div>
+<div class="bar"><div class="fill" id="b3"></div></div>
 </div>
 
-<div class="progress">
-<div class="bar" id="bar"></div>
+<div class="scan" id="s4">
+<div class="row">
+<span class="name">SYSTEM INTEGRITY</span>
+<span class="result" id="r4">WAITING</span>
+</div>
+<div class="bar"><div class="fill" id="b4"></div></div>
 </div>
 
-<div class="percent" id="percent">0%</div>
+<div class="footer">
+VISUAL SIMULATION • NO PERSONAL DATA COLLECTED
+</div>
 
 <div class="alert" id="alert">
-
-<h2>⚠ SYSTEM STATUS: REVIEW REQUIRED</h2>
-
-<p>
-Irregular response patterns detected.
-</p>
-
-<p>
-Additional verification is being performed...
-</p>
-
+<div class="alertbox">
+<h1>⚠ SYSTEM ALERT ⚠</h1>
+<p>SECURITY VERIFICATION COMPLETE</p>
+<p>REVIEW REQUIRED</p>
 </div>
-
 </div>
 
 <div class="final" id="final">
-
-<div class="title">
-SYSTEM CHECK COMPLETE
-</div>
-
-<div>
-Verification sequence finished.
-</div>
-
-<div class="youssef">
-معلوماتك مع عمك يوسف وليد 😂🔥
-</div>
-
-<div class="small">
-No personal data was collected.
-</div>
-
+<div class="youssef">YOUSSEF</div>
+<div style="margin-top:20px">SYSTEM CHECK COMPLETE</div>
+<div class="fake">معلوماتك مع عمك YOUSSEF 😂🔥</div>
 </div>
 
 </div>
 
 <script>
 
-const lines=document.querySelectorAll(".line");
-const bar=document.getElementById("bar");
-const percent=document.getElementById("percent");
-const alertBox=document.getElementById("alert");
-const final=document.getElementById("final");
-const main=document.getElementById("main");
-const flash=document.getElementById("flash");
-const bigWarning=document.getElementById("bigWarning");
+const scans=[
+["s1","b1","r1","DEVICE ANALYSIS"],
+["s2","b2","r2","MEMORY CHECK"],
+["s3","b3","r3","NETWORK SECURITY"],
+["s4","b4","r4","SYSTEM INTEGRITY"]
+];
 
-function beep(){
+let current=0;
 
-try{
+function runScan(){
 
-const A=window.AudioContext||window.webkitAudioContext;
-const audio=new A();
+    if(current>=scans.length){
+        document.getElementById("status").textContent=
+        "FINAL SECURITY VERIFICATION...";
 
-const osc=audio.createOscillator();
-const gain=audio.createGain();
+        setTimeout(()=>{
+            document.getElementById("alert").classList.add("show");
 
-osc.type="square";
-osc.frequency.value=620;
-gain.gain.value=.025;
+            setTimeout(()=>{
+                document.getElementById("alert").classList.remove("show");
+                document.getElementById("final").classList.add("show");
+            },1800);
 
-osc.connect(gain);
-gain.connect(audio.destination);
+        },700);
 
-osc.start();
+        return;
+    }
 
-setTimeout(()=>{
-osc.stop();
-audio.close();
-},120);
+    const [sid,bid,rid,name]=scans[current];
 
-}catch(e){}
+    const box=document.getElementById(sid);
+    const bar=document.getElementById(bid);
+    const result=document.getElementById(rid);
 
+    box.classList.add("active");
+    result.textContent="SCANNING";
+
+    let p=0;
+
+    const timer=setInterval(()=>{
+
+        p+=Math.floor(Math.random()*12)+5;
+
+        if(p>=100){
+            p=100;
+            clearInterval(timer);
+
+            bar.style.width="100%";
+            result.textContent="SECURE";
+            result.style.color="#00ff88";
+
+            box.classList.remove("active");
+            box.classList.add("done");
+
+            current++;
+
+            setTimeout(runScan,500);
+        }else{
+            bar.style.width=p+"%";
+            result.textContent=p+"%";
+        }
+
+    },180);
 }
 
-/* بداية تلقائية */
-
 setTimeout(()=>{
-
-lines.forEach((line,i)=>{
-
-setTimeout(()=>{
-line.style.opacity="1";
-},i*550);
-
-});
-
-startProgress();
-
-},700);
-
-
-function startProgress(){
-
-let p=0;
-
-const timer=setInterval(()=>{
-
-p+=Math.floor(Math.random()*5)+2;
-
-if(p>=100){
-
-p=100;
-clearInterval(timer);
-
-setTimeout(()=>{
-
-/* تأثير مفاجئ */
-
-document.body.classList.add("glitch");
-flash.classList.add("on");
-bigWarning.style.display="flex";
-
-beep();
-
-setTimeout(()=>{
-
-document.body.classList.remove("glitch");
-bigWarning.style.display="none";
-alertBox.style.display="block";
-
-setTimeout(()=>{
-
-main.style.display="none";
-final.style.display="block";
-
-},2600);
-
-},700);
-
-},700);
-
-}
-
-bar.style.width=p+"%";
-percent.textContent=p+"%";
-
-},280);
-
-}
+    document.getElementById("status").textContent=
+    "RUNNING AUTOMATED DIAGNOSTIC...";
+    runScan();
+},1000);
 
 </script>
 
