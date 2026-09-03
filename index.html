@@ -2,353 +2,450 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>YOUSSEF SYSTEM</title>
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>YOUSSEF // V10 ULTRA</title>
 
 <style>
 *{box-sizing:border-box}
-
+html,body{margin:0;width:100%;height:100%;overflow:hidden}
 body{
-    margin:0;
-    min-height:100vh;
-    background:#05070d;
-    color:#fff;
-    font-family:monospace;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    overflow:hidden;
+  background:#02030a;
+  color:#dffcff;
+  font-family:monospace;
 }
-
 body:before{
-    content:"";
-    position:fixed;
-    inset:0;
-    background:
-      linear-gradient(rgba(0,255,255,.04) 1px,transparent 1px),
-      linear-gradient(90deg,rgba(0,255,255,.04) 1px,transparent 1px);
-    background-size:35px 35px;
-    pointer-events:none;
+  content:"";
+  position:fixed;
+  inset:0;
+  background:
+    linear-gradient(rgba(0,220,255,.035) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(0,220,255,.035) 1px,transparent 1px);
+  background-size:32px 32px;
+  animation:grid 8s linear infinite;
+}
+@keyframes grid{to{background-position:32px 32px}}
+
+.app{
+  position:relative;
+  width:100%;
+  height:100%;
+  max-width:430px;
+  margin:auto;
+  overflow:hidden;
+  background:
+    radial-gradient(circle at 50% 42%,#08213a 0,#030610 38%,#010207 80%);
 }
 
-.phone{
-    width:370px;
-    max-width:94vw;
-    height:720px;
-    max-height:94vh;
-    border:2px solid #00eaff;
-    border-radius:30px;
-    padding:18px;
-    background:#080b14;
-    box-shadow:0 0 25px #00eaff55, inset 0 0 30px #001f2b;
-    position:relative;
-    overflow:hidden;
+.scanline{
+  position:absolute;
+  left:0;
+  right:0;
+  height:2px;
+  background:#00eaff;
+  box-shadow:0 0 18px #00eaff;
+  opacity:.35;
+  animation:scan 3s linear infinite;
+  z-index:20;
+}
+@keyframes scan{
+  from{top:-5%}
+  to{top:105%}
 }
 
 .top{
-    text-align:center;
-    font-size:12px;
-    color:#00eaff;
-    letter-spacing:3px;
-    margin-bottom:18px;
+  position:absolute;
+  top:16px;
+  left:18px;
+  right:18px;
+  display:flex;
+  justify-content:space-between;
+  font-size:9px;
+  color:#5cecff;
+  letter-spacing:2px;
+  z-index:5;
 }
 
-.logo{
-    text-align:center;
-    font-size:28px;
-    font-weight:bold;
-    color:#fff;
-    text-shadow:0 0 12px #00eaff;
-    margin:10px 0;
+.core{
+  position:absolute;
+  top:105px;
+  left:50%;
+  transform:translateX(-50%);
+  width:245px;
+  height:245px;
+  border:1px solid #00eaff88;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  box-shadow:0 0 35px #00eaff22,inset 0 0 30px #00eaff15;
 }
 
-.status{
-    text-align:center;
-    color:#aaa;
-    font-size:12px;
-    margin-bottom:25px;
+.core:before,.core:after{
+  content:"";
+  position:absolute;
+  border:1px solid #7b4dff55;
+  border-radius:50%;
+}
+.core:before{inset:22px}
+.core:after{inset:52px}
+
+.radar{
+  position:absolute;
+  width:100%;
+  height:100%;
+  border-radius:50%;
+  background:conic-gradient(from 0deg,transparent 0 72%,#00eaff55 76%,transparent 81%);
+  animation:spin 2.5s linear infinite;
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+.cross{
+  position:absolute;
+  width:100%;
+  height:1px;
+  background:#00eaff44;
+}
+.cross.v{
+  width:1px;
+  height:100%;
 }
 
-.scan{
-    border:1px solid #222d3d;
-    border-radius:15px;
-    padding:14px;
-    margin:10px 0;
-    background:#0b101b;
-    transition:.3s;
+.brand{
+  position:relative;
+  z-index:2;
+  text-align:center;
 }
 
-.scan.active{
-    border-color:#00eaff;
-    box-shadow:0 0 15px #00eaff33;
+.brand small{
+  display:block;
+  color:#8c7cff;
+  font-size:8px;
+  letter-spacing:4px;
+  margin-bottom:8px;
 }
 
-.scan.done{
-    border-color:#00ff88;
-}
-
-.row{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-}
-
-.name{
-    font-size:14px;
-}
-
-.result{
-    font-size:12px;
-    color:#777;
-}
-
-.bar{
-    width:100%;
-    height:5px;
-    background:#151c29;
-    border-radius:10px;
-    margin-top:10px;
-    overflow:hidden;
-}
-
-.fill{
-    width:0%;
-    height:100%;
-    background:linear-gradient(90deg,#00eaff,#7c4dff);
-    box-shadow:0 0 10px #00eaff;
-    transition:width .5s;
-}
-
-.percent{
-    color:#00eaff;
-}
-
-.alert{
-    display:none;
-    position:absolute;
-    inset:0;
-    background:rgba(5,0,10,.96);
-    z-index:10;
-    justify-content:center;
-    align-items:center;
-    text-align:center;
-    padding:25px;
-}
-
-.alert.show{
-    display:flex;
-    animation:flash .2s infinite alternate;
-}
-
-.alertbox{
-    border:2px solid #ff1744;
-    padding:30px 18px;
-    border-radius:18px;
-    box-shadow:0 0 35px #ff1744;
-}
-
-.alert h1{
-    color:#ff1744;
-    font-size:28px;
-    text-shadow:0 0 15px #ff1744;
-}
-
-.alert p{
-    color:#fff;
-    font-size:13px;
-}
-
-.final{
-    display:none;
-    position:absolute;
-    inset:0;
-    z-index:11;
-    background:#05070d;
-    align-items:center;
-    justify-content:center;
-    text-align:center;
-    flex-direction:column;
-}
-
-.final.show{
-    display:flex;
-}
-
-.youssef{
-    font-size:42px;
-    font-weight:bold;
-    color:#00eaff;
-    text-shadow:
-      0 0 8px #00eaff,
-      0 0 25px #7c4dff;
-    animation:pulse 1s infinite alternate;
-}
-
-.fake{
-    color:#888;
-    font-size:11px;
-    margin-top:15px;
+.brand h1{
+  margin:0;
+  font-size:39px;
+  letter-spacing:5px;
+  color:#fff;
+  text-shadow:
+    0 0 5px #00eaff,
+    0 0 18px #00eaff,
+    0 0 35px #7b4dff;
+  animation:pulse 1.4s ease-in-out infinite alternate;
 }
 
 @keyframes pulse{
-    from{transform:scale(1)}
-    to{transform:scale(1.08)}
+  from{filter:brightness(.9)}
+  to{filter:brightness(1.35)}
 }
 
-@keyframes flash{
-    from{opacity:1}
-    to{opacity:.75}
+.hud{
+  position:absolute;
+  top:375px;
+  left:15px;
+  right:15px;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:9px;
 }
+
+.card{
+  padding:10px;
+  border:1px solid #123b4a;
+  border-radius:10px;
+  background:#06101a99;
+  box-shadow:inset 0 0 15px #00eaff08;
+}
+
+.card .title{
+  color:#668895;
+  font-size:8px;
+  letter-spacing:1px;
+}
+.value{
+  margin-top:5px;
+  font-size:17px;
+  color:#00eaff;
+  text-shadow:0 0 8px #00eaff;
+}
+.mini{
+  height:3px;
+  margin-top:7px;
+  background:#10202a;
+  overflow:hidden;
+}
+.mini i{
+  display:block;
+  width:65%;
+  height:100%;
+  background:linear-gradient(90deg,#00eaff,#8c4dff);
+  animation:load 2s infinite alternate;
+}
+@keyframes load{
+  from{width:25%}
+  to{width:94%}
+}
+
+.terminal{
+  position:absolute;
+  left:15px;
+  right:15px;
+  bottom:57px;
+  height:115px;
+  padding:10px;
+  border:1px solid #173746;
+  border-radius:10px;
+  background:#02060bcc;
+  overflow:hidden;
+  font-size:8px;
+  color:#54ffae;
+}
+
+.log{
+  margin:3px 0;
+  opacity:.8;
+}
+
+.log b{color:#00eaff}
 
 .footer{
-    position:absolute;
-    bottom:12px;
-    left:0;
-    right:0;
-    text-align:center;
-    color:#384152;
-    font-size:9px;
+  position:absolute;
+  bottom:15px;
+  left:0;
+  right:0;
+  text-align:center;
+  color:#344957;
+  font-size:7px;
+  letter-spacing:2px;
+}
+
+.flash{
+  position:absolute;
+  inset:0;
+  background:#fff;
+  opacity:0;
+  pointer-events:none;
+  z-index:30;
+}
+
+.flash.go{animation:flash .35s}
+@keyframes flash{
+  0%{opacity:0}
+  20%{opacity:.9}
+  100%{opacity:0}
+}
+
+.final{
+  position:absolute;
+  inset:0;
+  background:#010208f7;
+  z-index:40;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  flex-direction:column;
+  text-align:center;
+}
+
+.final.show{display:flex}
+
+.final .line{
+  width:230px;
+  height:1px;
+  background:#00eaff;
+  box-shadow:0 0 15px #00eaff;
+  margin:18px 0;
+}
+
+.final h2{
+  margin:0;
+  font-size:12px;
+  letter-spacing:5px;
+  color:#8d83ff;
+}
+
+.final .name{
+  font-size:55px;
+  font-weight:bold;
+  letter-spacing:7px;
+  color:#fff;
+  text-shadow:
+    0 0 7px #00eaff,
+    0 0 22px #00eaff,
+    0 0 45px #7b4dff;
+  animation:finalPulse 1s infinite alternate;
+}
+
+@keyframes finalPulse{
+  from{transform:scale(.96);opacity:.8}
+  to{transform:scale(1.04);opacity:1}
+}
+
+.final p{
+  font-size:9px;
+  color:#5f7784;
+  letter-spacing:3px;
+}
+
+.glitch{
+  animation:glitch .12s 5;
+}
+@keyframes glitch{
+  0%{transform:translate(0)}
+  25%{transform:translate(5px,-2px)}
+  50%{transform:translate(-5px,2px)}
+  75%{transform:translate(3px,1px)}
+  100%{transform:translate(0)}
 }
 </style>
 </head>
 
 <body>
 
-<div class="phone">
+<div class="app" id="app">
 
-<div class="top">SYSTEM DIAGNOSTIC // ONLINE</div>
+<div class="scanline"></div>
 
-<div class="logo">YOUSSEF</div>
-
-<div class="status" id="status">
-INITIALIZING SECURITY ENGINE...
-</div>
-
-<div class="scan" id="s1">
-<div class="row">
-<span class="name">DEVICE ANALYSIS</span>
-<span class="result" id="r1">WAITING</span>
-</div>
-<div class="bar"><div class="fill" id="b1"></div></div>
+<div class="top">
+  <span>YOUSSEF // V10</span>
+  <span id="clock">00:00:00</span>
 </div>
 
-<div class="scan" id="s2">
-<div class="row">
-<span class="name">MEMORY CHECK</span>
-<span class="result" id="r2">WAITING</span>
-</div>
-<div class="bar"><div class="fill" id="b2"></div></div>
+<div class="core" id="core">
+  <div class="radar"></div>
+  <div class="cross"></div>
+  <div class="cross v"></div>
+
+  <div class="brand">
+    <small>SYSTEM CORE</small>
+    <h1>YOUSSEF</h1>
+  </div>
 </div>
 
-<div class="scan" id="s3">
-<div class="row">
-<span class="name">NETWORK SECURITY</span>
-<span class="result" id="r3">WAITING</span>
-</div>
-<div class="bar"><div class="fill" id="b3"></div></div>
+<div class="hud">
+
+  <div class="card">
+    <div class="title">CPU LOAD</div>
+    <div class="value" id="cpu">--%</div>
+    <div class="mini"><i></i></div>
+  </div>
+
+  <div class="card">
+    <div class="title">MEMORY</div>
+    <div class="value" id="ram">--%</div>
+    <div class="mini"><i></i></div>
+  </div>
+
+  <div class="card">
+    <div class="title">BATTERY</div>
+    <div class="value" id="battery">--%</div>
+    <div class="mini"><i></i></div>
+  </div>
+
+  <div class="card">
+    <div class="title">NETWORK</div>
+    <div class="value" id="ping">-- ms</div>
+    <div class="mini"><i></i></div>
+  </div>
+
 </div>
 
-<div class="scan" id="s4">
-<div class="row">
-<span class="name">SYSTEM INTEGRITY</span>
-<span class="result" id="r4">WAITING</span>
-</div>
-<div class="bar"><div class="fill" id="b4"></div></div>
-</div>
+<div class="terminal" id="terminal"></div>
 
 <div class="footer">
-VISUAL SIMULATION • NO PERSONAL DATA COLLECTED
+  VISUAL SYSTEM SIMULATION // V10 ULTRA
 </div>
 
-<div class="alert" id="alert">
-<div class="alertbox">
-<h1>⚠ SYSTEM ALERT ⚠</h1>
-<p>SECURITY VERIFICATION COMPLETE</p>
-<p>REVIEW REQUIRED</p>
-</div>
-</div>
+<div class="flash" id="flash"></div>
 
 <div class="final" id="final">
-<div class="youssef">YOUSSEF</div>
-<div style="margin-top:20px">SYSTEM CHECK COMPLETE</div>
-<div class="fake">معلوماتك مع عمك YOUSSEF 😂🔥</div>
+  <h2>FINAL SYSTEM STATUS</h2>
+  <div class="line"></div>
+  <div class="name">YOUSSEF</div>
+  <div class="line"></div>
+  <p>DIAGNOSTIC COMPLETE // SYSTEM VERIFIED</p>
 </div>
 
 </div>
 
 <script>
+const terminal=document.getElementById("terminal");
+const app=document.getElementById("app");
+const flash=document.getElementById("flash");
+const final=document.getElementById("final");
 
-const scans=[
-["s1","b1","r1","DEVICE ANALYSIS"],
-["s2","b2","r2","MEMORY CHECK"],
-["s3","b3","r3","NETWORK SECURITY"],
-["s4","b4","r4","SYSTEM INTEGRITY"]
+const messages=[
+  "BOOTING YOUSSEF SYSTEM V10...",
+  "INITIALIZING CORE ENGINE...",
+  "LOADING SECURITY MODULES...",
+  "CHECKING SYSTEM INTEGRITY...",
+  "ANALYZING PERFORMANCE...",
+  "MEMORY MODULE ONLINE...",
+  "NETWORK ENGINE ONLINE...",
+  "RUNNING FINAL DIAGNOSTIC...",
+  "ALL VISUAL MODULES READY..."
 ];
 
-let current=0;
+let index=0;
 
-function runScan(){
+function log(){
+  if(index>=messages.length)return;
 
-    if(current>=scans.length){
-        document.getElementById("status").textContent=
-        "FINAL SECURITY VERIFICATION...";
+  const line=document.createElement("div");
+  line.className="log";
+  line.innerHTML="<b>[V10]</b> "+messages[index];
+  terminal.appendChild(line);
 
-        setTimeout(()=>{
-            document.getElementById("alert").classList.add("show");
+  while(terminal.children.length>9)
+    terminal.removeChild(terminal.firstChild);
 
-            setTimeout(()=>{
-                document.getElementById("alert").classList.remove("show");
-                document.getElementById("final").classList.add("show");
-            },1800);
+  index++;
 
-        },700);
-
-        return;
-    }
-
-    const [sid,bid,rid,name]=scans[current];
-
-    const box=document.getElementById(sid);
-    const bar=document.getElementById(bid);
-    const result=document.getElementById(rid);
-
-    box.classList.add("active");
-    result.textContent="SCANNING";
-
-    let p=0;
-
-    const timer=setInterval(()=>{
-
-        p+=Math.floor(Math.random()*12)+5;
-
-        if(p>=100){
-            p=100;
-            clearInterval(timer);
-
-            bar.style.width="100%";
-            result.textContent="SECURE";
-            result.style.color="#00ff88";
-
-            box.classList.remove("active");
-            box.classList.add("done");
-
-            current++;
-
-            setTimeout(runScan,500);
-        }else{
-            bar.style.width=p+"%";
-            result.textContent=p+"%";
-        }
-
-    },180);
+  setTimeout(log,650);
 }
 
-setTimeout(()=>{
-    document.getElementById("status").textContent=
-    "RUNNING AUTOMATED DIAGNOSTIC...";
-    runScan();
-},1000);
+function randomize(){
+  document.getElementById("cpu").textContent=
+    Math.floor(35+Math.random()*60)+"%";
 
+  document.getElementById("ram").textContent=
+    Math.floor(40+Math.random()*50)+"%";
+
+  document.getElementById("battery").textContent=
+    Math.floor(70+Math.random()*29)+"%";
+
+  document.getElementById("ping").textContent=
+    Math.floor(18+Math.random()*55)+" ms";
+}
+
+function clock(){
+  const d=new Date();
+  document.getElementById("clock").textContent=
+    d.toLocaleTimeString("en-US",{hour12:false});
+}
+
+setInterval(randomize,700);
+setInterval(clock,1000);
+
+randomize();
+clock();
+log();
+
+setTimeout(()=>{
+  app.classList.add("glitch");
+  flash.classList.add("go");
+
+  setTimeout(()=>{
+    app.classList.remove("glitch");
+    flash.classList.remove("go");
+  },500);
+},6500);
+
+setTimeout(()=>{
+  final.classList.add("show");
+},8200);
 </script>
 
 </body>
