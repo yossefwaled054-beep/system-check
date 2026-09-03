@@ -3,301 +3,376 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>YOUSSEF // V10 ULTRA</title>
+<title>YOSSEF WALED // V10000000000</title>
 
 <style>
 *{box-sizing:border-box}
 html,body{margin:0;width:100%;height:100%;overflow:hidden}
+
 body{
-  background:#02030a;
-  color:#dffcff;
+  background:#010208;
+  color:#fff;
   font-family:monospace;
 }
-body:before{
-  content:"";
-  position:fixed;
-  inset:0;
-  background:
-    linear-gradient(rgba(0,220,255,.035) 1px,transparent 1px),
-    linear-gradient(90deg,rgba(0,220,255,.035) 1px,transparent 1px);
-  background-size:32px 32px;
-  animation:grid 8s linear infinite;
-}
-@keyframes grid{to{background-position:32px 32px}}
 
 .app{
   position:relative;
   width:100%;
   height:100%;
-  max-width:430px;
+  max-width:450px;
   margin:auto;
   overflow:hidden;
   background:
-    radial-gradient(circle at 50% 42%,#08213a 0,#030610 38%,#010207 80%);
+    radial-gradient(circle at 50% 35%,#101b4a 0,#050714 30%,#010208 78%);
 }
 
-.scanline{
+/* GRID */
+.app:before{
+  content:"";
   position:absolute;
-  left:0;
-  right:0;
+  inset:0;
+  background:
+    linear-gradient(#00eaff10 1px,transparent 1px),
+    linear-gradient(90deg,#00eaff10 1px,transparent 1px);
+  background-size:28px 28px;
+  animation:grid 7s linear infinite;
+}
+
+@keyframes grid{
+  to{background-position:28px 28px}
+}
+
+/* SCAN */
+.scan{
+  position:absolute;
+  width:100%;
   height:2px;
   background:#00eaff;
-  box-shadow:0 0 18px #00eaff;
+  box-shadow:0 0 20px #00eaff;
   opacity:.35;
-  animation:scan 3s linear infinite;
-  z-index:20;
+  animation:scan 2.8s linear infinite;
+  z-index:10;
 }
+
 @keyframes scan{
   from{top:-5%}
   to{top:105%}
 }
 
+/* TOP */
 .top{
   position:absolute;
-  top:16px;
+  top:15px;
   left:18px;
   right:18px;
   display:flex;
   justify-content:space-between;
-  font-size:9px;
-  color:#5cecff;
+  color:#607d8b;
+  font-size:8px;
   letter-spacing:2px;
   z-index:5;
 }
 
-.core{
+/* LOGO */
+.logo{
   position:absolute;
-  top:105px;
-  left:50%;
-  transform:translateX(-50%);
-  width:245px;
-  height:245px;
-  border:1px solid #00eaff88;
-  border-radius:50%;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  box-shadow:0 0 35px #00eaff22,inset 0 0 30px #00eaff15;
-}
-
-.core:before,.core:after{
-  content:"";
-  position:absolute;
-  border:1px solid #7b4dff55;
-  border-radius:50%;
-}
-.core:before{inset:22px}
-.core:after{inset:52px}
-
-.radar{
-  position:absolute;
+  top:85px;
   width:100%;
-  height:100%;
-  border-radius:50%;
-  background:conic-gradient(from 0deg,transparent 0 72%,#00eaff55 76%,transparent 81%);
-  animation:spin 2.5s linear infinite;
-}
-@keyframes spin{to{transform:rotate(360deg)}}
-
-.cross{
-  position:absolute;
-  width:100%;
-  height:1px;
-  background:#00eaff44;
-}
-.cross.v{
-  width:1px;
-  height:100%;
-}
-
-.brand{
-  position:relative;
-  z-index:2;
   text-align:center;
+  z-index:4;
 }
 
-.brand small{
-  display:block;
-  color:#8c7cff;
-  font-size:8px;
-  letter-spacing:4px;
-  margin-bottom:8px;
-}
-
-.brand h1{
-  margin:0;
-  font-size:39px;
-  letter-spacing:5px;
-  color:#fff;
+.logo .y{
+  font-size:45px;
+  font-weight:900;
+  letter-spacing:6px;
+  color:#00eaff;
   text-shadow:
     0 0 5px #00eaff,
     0 0 18px #00eaff,
-    0 0 35px #7b4dff;
-  animation:pulse 1.4s ease-in-out infinite alternate;
+    0 0 40px #00eaff;
+  animation:float 2s ease-in-out infinite;
 }
 
-@keyframes pulse{
-  from{filter:brightness(.9)}
-  to{filter:brightness(1.35)}
-}
-
-.hud{
-  position:absolute;
-  top:375px;
-  left:15px;
-  right:15px;
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:9px;
-}
-
-.card{
-  padding:10px;
-  border:1px solid #123b4a;
-  border-radius:10px;
-  background:#06101a99;
-  box-shadow:inset 0 0 15px #00eaff08;
-}
-
-.card .title{
-  color:#668895;
-  font-size:8px;
-  letter-spacing:1px;
-}
-.value{
+.logo .w{
   margin-top:5px;
-  font-size:17px;
-  color:#00eaff;
-  text-shadow:0 0 8px #00eaff;
-}
-.mini{
-  height:3px;
-  margin-top:7px;
-  background:#10202a;
-  overflow:hidden;
-}
-.mini i{
-  display:block;
-  width:65%;
-  height:100%;
-  background:linear-gradient(90deg,#00eaff,#8c4dff);
-  animation:load 2s infinite alternate;
-}
-@keyframes load{
-  from{width:25%}
-  to{width:94%}
+  font-size:35px;
+  font-weight:900;
+  letter-spacing:8px;
+  color:#a66cff;
+  text-shadow:
+    0 0 5px #a66cff,
+    0 0 18px #a66cff,
+    0 0 40px #a66cff;
+  animation:float2 2s ease-in-out infinite;
 }
 
-.terminal{
+@keyframes float{
+  50%{transform:translateY(-5px)}
+}
+
+@keyframes float2{
+  50%{transform:translateY(5px)}
+}
+
+/* CORE */
+.core{
   position:absolute;
-  left:15px;
-  right:15px;
-  bottom:57px;
-  height:115px;
-  padding:10px;
-  border:1px solid #173746;
-  border-radius:10px;
-  background:#02060bcc;
-  overflow:hidden;
-  font-size:8px;
-  color:#54ffae;
+  top:205px;
+  left:50%;
+  transform:translateX(-50%);
+  width:170px;
+  height:170px;
+  border-radius:50%;
+  border:1px solid #00eaff66;
+  box-shadow:
+    0 0 30px #00eaff22,
+    inset 0 0 30px #7c4dff22;
 }
 
-.log{
-  margin:3px 0;
-  opacity:.8;
-}
-
-.log b{color:#00eaff}
-
-.footer{
+.core:before{
+  content:"";
   position:absolute;
-  bottom:15px;
+  inset:20px;
+  border:1px solid #a66cff66;
+  border-radius:50%;
+}
+
+.core:after{
+  content:"";
+  position:absolute;
+  inset:43px;
+  border:1px solid #00eaff77;
+  border-radius:50%;
+}
+
+.radar{
+  position:absolute;
+  inset:0;
+  border-radius:50%;
+  background:conic-gradient(
+    transparent 0deg,
+    #00eaff88 45deg,
+    transparent 70deg
+  );
+  animation:spin 1.8s linear infinite;
+}
+
+@keyframes spin{
+  to{transform:rotate(360deg)}
+}
+
+.dot{
+  position:absolute;
+  width:7px;
+  height:7px;
+  background:#00ff9d;
+  border-radius:50%;
+  box-shadow:0 0 15px #00ff9d;
+  top:30px;
+  left:105px;
+  animation:blink .7s infinite alternate;
+}
+
+@keyframes blink{
+  to{opacity:.2}
+}
+
+/* STATUS */
+.status{
+  position:absolute;
+  top:390px;
   left:0;
   right:0;
   text-align:center;
-  color:#344957;
+  color:#00eaff;
+  font-size:9px;
+  letter-spacing:3px;
+}
+
+/* CARDS */
+.cards{
+  position:absolute;
+  top:425px;
+  left:14px;
+  right:14px;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+}
+
+.card{
+  padding:9px;
+  border:1px solid #153848;
+  border-radius:9px;
+  background:#050d17cc;
+  box-shadow:inset 0 0 15px #00eaff08;
+}
+
+.card small{
+  color:#607d8b;
   font-size:7px;
+  letter-spacing:1px;
+}
+
+.val{
+  margin-top:5px;
+  color:#00eaff;
+  font-size:16px;
+  text-shadow:0 0 8px #00eaff;
+}
+
+.bar{
+  height:3px;
+  background:#12202a;
+  margin-top:6px;
+  overflow:hidden;
+}
+
+.bar i{
+  display:block;
+  width:70%;
+  height:100%;
+  background:linear-gradient(90deg,#00eaff,#a66cff);
+  animation:bar 1.5s infinite alternate;
+}
+
+@keyframes bar{
+  from{width:25%}
+  to{width:95%}
+}
+
+/* TERMINAL */
+.terminal{
+  position:absolute;
+  left:14px;
+  right:14px;
+  bottom:55px;
+  height:95px;
+  border:1px solid #173746;
+  border-radius:9px;
+  background:#01050bd9;
+  padding:8px;
+  overflow:hidden;
+  font-size:7px;
+}
+
+.line{
+  margin:3px 0;
+  color:#49ffad;
+}
+
+.line span{
+  color:#00eaff;
+}
+
+/* FOOTER */
+.footer{
+  position:absolute;
+  bottom:13px;
+  left:0;
+  right:0;
+  text-align:center;
+  color:#30424d;
+  font-size:6px;
   letter-spacing:2px;
 }
 
+/* GLITCH */
+.glitch{
+  animation:glitch .1s 8;
+}
+
+@keyframes glitch{
+  0%{transform:translate(0)}
+  25%{transform:translate(4px,-2px)}
+  50%{transform:translate(-5px,2px)}
+  75%{transform:translate(3px,1px)}
+  100%{transform:translate(0)}
+}
+
+/* FLASH */
 .flash{
   position:absolute;
   inset:0;
   background:#fff;
   opacity:0;
-  pointer-events:none;
   z-index:30;
+  pointer-events:none;
 }
 
-.flash.go{animation:flash .35s}
+.flash.on{
+  animation:flash .4s;
+}
+
 @keyframes flash{
   0%{opacity:0}
-  20%{opacity:.9}
+  15%{opacity:.9}
   100%{opacity:0}
 }
 
+/* FINAL */
 .final{
   position:absolute;
   inset:0;
-  background:#010208f7;
-  z-index:40;
   display:none;
   align-items:center;
   justify-content:center;
   flex-direction:column;
   text-align:center;
+  background:#010208f5;
+  z-index:50;
 }
 
-.final.show{display:flex}
+.final.show{
+  display:flex;
+}
 
-.final .line{
-  width:230px;
-  height:1px;
-  background:#00eaff;
-  box-shadow:0 0 15px #00eaff;
-  margin:18px 0;
+.final .small{
+  color:#8f82ff;
+  font-size:9px;
+  letter-spacing:5px;
+}
+
+.final h1{
+  margin:18px 0 5px;
+  font-size:48px;
+  letter-spacing:6px;
+  color:#00eaff;
+  text-shadow:
+    0 0 8px #00eaff,
+    0 0 25px #00eaff,
+    0 0 50px #a66cff;
+  animation:finalPulse 1s infinite alternate;
 }
 
 .final h2{
   margin:0;
-  font-size:12px;
-  letter-spacing:5px;
-  color:#8d83ff;
-}
-
-.final .name{
-  font-size:55px;
-  font-weight:bold;
-  letter-spacing:7px;
-  color:#fff;
+  font-size:30px;
+  letter-spacing:8px;
+  color:#a66cff;
   text-shadow:
-    0 0 7px #00eaff,
-    0 0 22px #00eaff,
-    0 0 45px #7b4dff;
-  animation:finalPulse 1s infinite alternate;
+    0 0 8px #a66cff,
+    0 0 25px #a66cff;
 }
 
-@keyframes finalPulse{
-  from{transform:scale(.96);opacity:.8}
-  to{transform:scale(1.04);opacity:1}
+.final .line{
+  width:240px;
+  height:1px;
+  background:#00eaff;
+  box-shadow:0 0 15px #00eaff;
+  margin:20px;
 }
 
 .final p{
-  font-size:9px;
-  color:#5f7784;
+  color:#607d8b;
+  font-size:8px;
   letter-spacing:3px;
 }
 
-.glitch{
-  animation:glitch .12s 5;
-}
-@keyframes glitch{
-  0%{transform:translate(0)}
-  25%{transform:translate(5px,-2px)}
-  50%{transform:translate(-5px,2px)}
-  75%{transform:translate(3px,1px)}
-  100%{transform:translate(0)}
+@keyframes finalPulse{
+  from{transform:scale(.96)}
+  to{transform:scale(1.05)}
 }
 </style>
 </head>
@@ -306,48 +381,51 @@ body:before{
 
 <div class="app" id="app">
 
-<div class="scanline"></div>
+<div class="scan"></div>
 
 <div class="top">
-  <span>YOUSSEF // V10</span>
-  <span id="clock">00:00:00</span>
+  <span>V10000000000 // CORE</span>
+  <span id="time">00:00:00</span>
 </div>
 
-<div class="core" id="core">
+<div class="logo">
+  <div class="y">YOSSEF</div>
+  <div class="w">WALED</div>
+</div>
+
+<div class="core">
   <div class="radar"></div>
-  <div class="cross"></div>
-  <div class="cross v"></div>
-
-  <div class="brand">
-    <small>SYSTEM CORE</small>
-    <h1>YOUSSEF</h1>
-  </div>
+  <div class="dot"></div>
 </div>
 
-<div class="hud">
+<div class="status" id="status">
+  INITIALIZING ULTRA SYSTEM...
+</div>
+
+<div class="cards">
 
   <div class="card">
-    <div class="title">CPU LOAD</div>
-    <div class="value" id="cpu">--%</div>
-    <div class="mini"><i></i></div>
+    <small>CPU PERFORMANCE</small>
+    <div class="val" id="cpu">--%</div>
+    <div class="bar"><i></i></div>
   </div>
 
   <div class="card">
-    <div class="title">MEMORY</div>
-    <div class="value" id="ram">--%</div>
-    <div class="mini"><i></i></div>
+    <small>MEMORY CORE</small>
+    <div class="val" id="ram">--%</div>
+    <div class="bar"><i></i></div>
   </div>
 
   <div class="card">
-    <div class="title">BATTERY</div>
-    <div class="value" id="battery">--%</div>
-    <div class="mini"><i></i></div>
+    <small>ENERGY STATUS</small>
+    <div class="val" id="bat">--%</div>
+    <div class="bar"><i></i></div>
   </div>
 
   <div class="card">
-    <div class="title">NETWORK</div>
-    <div class="value" id="ping">-- ms</div>
-    <div class="mini"><i></i></div>
+    <small>NETWORK PING</small>
+    <div class="val" id="ping">--ms</div>
+    <div class="bar"><i></i></div>
   </div>
 
 </div>
@@ -355,15 +433,16 @@ body:before{
 <div class="terminal" id="terminal"></div>
 
 <div class="footer">
-  VISUAL SYSTEM SIMULATION // V10 ULTRA
+  VISUAL SIMULATION // NO REAL DEVICE DATA
 </div>
 
 <div class="flash" id="flash"></div>
 
 <div class="final" id="final">
-  <h2>FINAL SYSTEM STATUS</h2>
+  <div class="small">FINAL SYSTEM STATUS</div>
   <div class="line"></div>
-  <div class="name">YOUSSEF</div>
+  <h1>YOSSEF</h1>
+  <h2>WALED</h2>
   <div class="line"></div>
   <p>DIAGNOSTIC COMPLETE // SYSTEM VERIFIED</p>
 </div>
@@ -376,76 +455,78 @@ const app=document.getElementById("app");
 const flash=document.getElementById("flash");
 const final=document.getElementById("final");
 
-const messages=[
-  "BOOTING YOUSSEF SYSTEM V10...",
-  "INITIALIZING CORE ENGINE...",
-  "LOADING SECURITY MODULES...",
-  "CHECKING SYSTEM INTEGRITY...",
-  "ANALYZING PERFORMANCE...",
-  "MEMORY MODULE ONLINE...",
-  "NETWORK ENGINE ONLINE...",
-  "RUNNING FINAL DIAGNOSTIC...",
-  "ALL VISUAL MODULES READY..."
+const logs=[
+"BOOT SEQUENCE STARTED...",
+"LOADING ULTRA CORE...",
+"INITIALIZING VISUAL ENGINE...",
+"CHECKING SYSTEM MODULES...",
+"ANALYZING PERFORMANCE...",
+"NETWORK MODULE ONLINE...",
+"SECURITY ENGINE READY...",
+"RUNNING FINAL DIAGNOSTIC...",
+"CORE STATUS: STABLE",
+"FINAL VERIFICATION STARTED..."
 ];
 
-let index=0;
+let n=0;
 
-function log(){
-  if(index>=messages.length)return;
+function addLog(){
+  if(n>=logs.length)return;
 
-  const line=document.createElement("div");
-  line.className="log";
-  line.innerHTML="<b>[V10]</b> "+messages[index];
-  terminal.appendChild(line);
+  const x=document.createElement("div");
+  x.className="line";
+  x.innerHTML='<span>[V10]</span> '+logs[n];
+
+  terminal.appendChild(x);
 
   while(terminal.children.length>9)
     terminal.removeChild(terminal.firstChild);
 
-  index++;
-
-  setTimeout(log,650);
+  n++;
+  setTimeout(addLog,550);
 }
 
-function randomize(){
+function update(){
   document.getElementById("cpu").textContent=
-    Math.floor(35+Math.random()*60)+"%";
+    Math.floor(30+Math.random()*65)+"%";
 
   document.getElementById("ram").textContent=
     Math.floor(40+Math.random()*50)+"%";
 
-  document.getElementById("battery").textContent=
-    Math.floor(70+Math.random()*29)+"%";
+  document.getElementById("bat").textContent=
+    Math.floor(70+Math.random()*30)+"%";
 
   document.getElementById("ping").textContent=
-    Math.floor(18+Math.random()*55)+" ms";
+    Math.floor(15+Math.random()*70)+"ms";
 }
 
 function clock(){
-  const d=new Date();
-  document.getElementById("clock").textContent=
-    d.toLocaleTimeString("en-US",{hour12:false});
+  document.getElementById("time").textContent=
+    new Date().toLocaleTimeString("en-US",{hour12:false});
 }
 
-setInterval(randomize,700);
+setInterval(update,700);
 setInterval(clock,1000);
 
-randomize();
+update();
 clock();
-log();
+addLog();
 
 setTimeout(()=>{
+  document.getElementById("status").textContent=
+    "FINAL VERIFICATION...";
   app.classList.add("glitch");
-  flash.classList.add("go");
+  flash.classList.add("on");
 
   setTimeout(()=>{
     app.classList.remove("glitch");
-    flash.classList.remove("go");
+    flash.classList.remove("on");
   },500);
-},6500);
+},6000);
 
 setTimeout(()=>{
   final.classList.add("show");
-},8200);
+},8000);
 </script>
 
 </body>
